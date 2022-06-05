@@ -74,7 +74,6 @@ jobs:
   # uses: suo/flake8-github-action@3e87882219642e01aa8a6bbd03b4b0adb8542c2a
       uses: suo/flake8-github-action@v1
       with:
-        path: ./apps/bets-be
         checkName: flake8-check
         
         
