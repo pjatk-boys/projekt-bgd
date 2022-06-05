@@ -1,0 +1,33 @@
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+name: Data pipeline
+jobs:
+  scrape:
+    name: Scrape data & save it to Mongo
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./apps/data-pipeline
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: Installed package list
+        run: apt list --installed
+
+      - name: Remove Chrome
+        run: sudo apt purge google-chrome-stable
+
+      - name: Install all necessary packages
+        run: pip install -r ./requirements.txt
+
+      - name: Run the scraping script
+        run: python ./scripts/scraper.py
