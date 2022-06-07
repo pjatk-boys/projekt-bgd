@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from fastapi import FastAPI, Query
 from starlette import status
@@ -18,8 +18,8 @@ async def get_event(event_id: str, response_model=DetailedEventModel):  # todo
 
 
 @app.get("/events/{order_by}/{q}", response_model=List[BaseEventModel])
-async def get_events(order_by: OrderByModel | None,
-                     q: str | None = Query(default=None, min_length=3, max_length=25)):  # todo
+async def get_events(order_by: Optional[OrderByModel],
+                     q: Optional[str] = Query(default=None, min_length=3, max_length=25)):  # todo
     return status.HTTP_501_NOT_IMPLEMENTED
 
 
