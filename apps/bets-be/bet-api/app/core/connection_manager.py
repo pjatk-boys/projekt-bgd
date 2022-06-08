@@ -9,17 +9,18 @@ class ConnectionManager:
     def __init__(self, database: Optional[MongoDatabase] = MongoDatabase()):
         self.database = database
 
-    async def get_all(self) -> List[BaseEventModel]:
+    def get_all(self) -> List[DetailedEventModel]:
         return self.database.get_events()
 
-    async def event(self, event_id: str) -> DetailedEventModel:
-        all_events = await self.get_all()
+    def event(self, event_id: str) -> DetailedEventModel:
+        all_events = self.get_all()
         try:
-            yield next(event for event in all_events if event.id == event_id)
+            a = next(event for event in all_events if event.id == event_id)
+            return a
         except StopIteration:
             raise ItemNotFound(event_id)
 
-    async def get_by_query(self, q) -> List[BaseEventModel]:
+    def get_by_query(self, q) -> List[DetailedEventModel]:
         raise NotImplementedError
 
     def create(self, event: DetailedEventModel):

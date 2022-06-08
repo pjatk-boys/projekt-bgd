@@ -5,7 +5,7 @@ from starlette import status
 
 from app.core import ConnectionManager
 from app.exceptions.exceptions import ItemNotFound, InvalidEvent
-from app.models import OrderByModel, DetailedEventModel, BaseEventModel, sort_events, validate_event
+from app.models import OrderByModel, DetailedEventModel, sort_events, validate_event
 
 app = FastAPI()
 event_manager = ConnectionManager()
@@ -25,7 +25,7 @@ async def get_event(event_id: str):
         return status.HTTP_404_NOT_FOUND
 
 
-@app.get("/events/{order_by}/{q}", response_model=List[BaseEventModel])
+@app.get("/events/{order_by}/{q}", response_model=List[DetailedEventModel])
 async def get_events(order_by: Optional[OrderByModel],
                      q: Optional[str] = Query(default=None, min_length=3, max_length=25)):  # todo
     # try: #todo kuba is there already validation delivered by FastAPI?
@@ -34,9 +34,9 @@ async def get_events(order_by: Optional[OrderByModel],
     # except InvalidParams:
     #     return status.HTTP_400_BAD_REQUEST
     if q is not None:
-        events: List[BaseEventModel] = await event_manager.get_by_query(q)
+        events: List[DetailedEventModel] = event_manager.get_by_query(q)
     else:
-        events = await event_manager.get_all()
+        events = event_manager.get_all()
 
     if order_by is not None:
         return sort_events(events, order_by)
@@ -51,7 +51,6 @@ async def create_event(event: DetailedEventModel):  # todo
         return status.HTTP_400_BAD_REQUEST
     event_manager.create(event)
     return status.HTTP_501_NOT_IMPLEMENTED
-
 
 
 @app.post("/events/")
