@@ -12,8 +12,8 @@ async def root():
     return {"status": "ok"}
 
 
-@app.get("/event/{event_id}")
-async def get_event(event_id: str, response_model=DetailedEventModel):  # todo
+@app.get("/event/{event_id}", response_model=DetailedEventModel)
+async def get_event(event_id: str):  # todo
     return status.HTTP_501_NOT_IMPLEMENTED
 
 
