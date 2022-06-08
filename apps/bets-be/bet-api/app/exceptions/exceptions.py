@@ -9,5 +9,5 @@ class ItemNotFound(ServerError):
 
 
 class InvalidEvent(ServerError):
-    def __init__(self, id: str):
+    def __init__(self):
         self.message = f'Event validation failed'
