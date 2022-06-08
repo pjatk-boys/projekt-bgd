@@ -2,6 +2,9 @@ from typing import List, Optional
 
 from fastapi import FastAPI, Query
 from starlette import status
+
+from app import connection_manager
+from app.connection_manager import ConnectionManager
 from app.models import OrderByModel, DetailedEventModel, BaseEventModel
 
 app = FastAPI()
@@ -14,7 +17,10 @@ async def root():
 
 @app.get("/event/{event_id}", response_model=DetailedEventModel)
 async def get_event(event_id: str):  # todo
-    return status.HTTP_501_NOT_IMPLEMENTED
+    try:
+        return connection_manager.get_event(event_id)
+    except StopIteration:
+        return status.HTTP_404_NOT_FOUND
 
 
 @app.get("/events/{order_by}/{q}", response_model=List[BaseEventModel])
