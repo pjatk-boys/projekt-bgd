@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import MagicMock
 
-from app.connection_manager import ConnectionManager
+from app.core.connection_manager import ConnectionManager
 from app.models import DetailedEventModel
 
 
@@ -15,7 +15,7 @@ class TestConnectionManager(TestCase):
 
         # when
         connection_manager = ConnectionManager(mock_database)
-        event = connection_manager.get_event(product_id)
+        event = connection_manager.event(product_id)
 
         # then
         self.assertEqual(event, expected_event)
