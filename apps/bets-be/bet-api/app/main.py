@@ -1,14 +1,14 @@
 from typing import List, Optional
 
-from fastapi import FastAPI, Query
-from starlette import status
+from fastapi import FastAPI, Query, status, HTTPException
 
 from app.core import ConnectionManager
+from app.database.mock_database.mock_database import get_mock_database
 from app.exceptions.exceptions import ItemNotFound, InvalidEvent
 from app.models import OrderByModel, DetailedEventModel, sort_events, validate_event
 
 app = FastAPI()
-event_manager = ConnectionManager()
+event_manager = ConnectionManager(get_mock_database())
 
 
 @app.get("/")
@@ -19,10 +19,10 @@ async def root():
 @app.get("/event/{event_id}", response_model=DetailedEventModel)
 async def get_event(event_id: str):
     try:
-        event: DetailedEventModel = event_manager.event(event_id)
-        return event.json()
-    except ItemNotFound:
-        return status.HTTP_404_NOT_FOUND
+        event = event_manager.get_event(event_id)
+        return event.dict()
+    except ItemNotFound as e:
+        raise HTTPException(status_code=404, detail=e.message)
 
 
 @app.get("/events/{order_by}/{q}", response_model=List[DetailedEventModel])
