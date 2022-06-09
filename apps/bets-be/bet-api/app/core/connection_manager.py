@@ -2,7 +2,7 @@ from typing import Optional, List
 
 from app.database.database import MongoDatabase
 from app.exceptions.exceptions import ItemNotFound
-from app.models import DetailedEventModel, BaseEventModel
+from app.models import DetailedEventModel
 
 
 class ConnectionManager:
@@ -12,7 +12,7 @@ class ConnectionManager:
     def get_all(self) -> List[DetailedEventModel]:
         return self.database.get_events()
 
-    def event(self, event_id: str) -> DetailedEventModel:
+    def get_event(self, event_id: str) -> DetailedEventModel:
         all_events = self.get_all()
         try:
             a = next(event for event in all_events if event.id == event_id)

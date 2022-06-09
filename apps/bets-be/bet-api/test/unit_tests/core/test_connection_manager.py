@@ -4,7 +4,7 @@ from unittest.mock import ANY
 
 from app.core.connection_manager import ConnectionManager
 from app.models import DetailedEventModel
-from ..database import get_mock_database
+from app.database.mock_database import get_mock_database
 
 
 class TestConnectionManager(TestCase):
@@ -15,7 +15,7 @@ class TestConnectionManager(TestCase):
 
         # when
         connection_manager = ConnectionManager(mock_database)
-        event = connection_manager.event(product_id)
+        event = connection_manager.get_event(product_id)
 
         # then
         self.assertIsInstance(event, DetailedEventModel)
