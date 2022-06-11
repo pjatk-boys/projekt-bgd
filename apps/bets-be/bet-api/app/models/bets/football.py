@@ -8,22 +8,63 @@ class overall_score(BetModel):
     draw: float
     away_win: float
 
-class over_under(BetModel):
-    bet_type = "over_under"
-    over_15 = float
-    over_25 = float
-    over_35 = float
-    over_45 = float
-    over_55 = float
-    over_55 = float
-    over_65 = float
-    over_75 = float
-    under_15 = float
-    under_25 = float
-    under_35 = float
-    under_45 = float
-    under_55 = float
 
-class over_under(BetModel):
+class goals_number(BetModel):
+    bet_type = "goals_number"
+    above_05 = float
+    above_1 = float
+    above_15 = float
+    above_2 = float
+    above_25 = float
+    above_3 = float
+    above_35 = float
+    above_4 = float
+    above_45 = float
+    above_5 = float
+    above_55 = float
+    above_6 = float
+    above_65 = float
+    above_05 = float
+    above_1 = float
+    above_15 = float
+    above_2 = float
+    above_25 = float
+    above_3 = float
+    above_35 = float
+    above_4 = float
+    above_45 = float
+    above_5 = float
+    above_55 = float
+    above_6 = float
+    above_65 = float
+
+class both_sides_score(BetModel):
+    bet_type = "both_sides_score"
+    yes: float
+    no: float
+
+class halftime_winner(BetModel):
+    bet_type = "halftime_winner"
+    home_win: float
+    draw: float
+    away_win: float
+    
+class first_goal(BetModel):
+    bet_type = "first_goal"
+    home_team_scores: float
+    away_team_scores: float
+
+class handicap1(BetModel):
+    bet_type = "handicap1"
+    home_win: float
+    draw: float
+    away_win: float
+
+class handicap2(BetModel):
+    bet_type = "handicap2"
+    home_win: float
+    draw: float
+    away_win: float
+
     
 
