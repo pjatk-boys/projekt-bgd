@@ -18,13 +18,14 @@ import {
   skeletonAnimation,
 } from "./EventCard.styles";
 import { Link } from "react-router-dom";
+import { DetailedEventModel } from "models/events";
 
 type Props = {
   event: DetailedEventModel;
 };
 
 const EventCard = ({ event }: Props) => {
-  const { home_team, away_team, discipline, created_at } = event;
+  const { home_team, away_team, discipline, created_at, bets } = event;
 
   return (
     <Button
@@ -55,11 +56,11 @@ const EventCard = ({ event }: Props) => {
       <Flex alignItems="center" justifyContent="space-between">
         <Box>
           <Text fontWeight="bold">
-            <OddsBadge>2.12</OddsBadge>
+            <OddsBadge>{bets[0].home_win || "—"}</OddsBadge>
             {home_team}
           </Text>
           <Text fontWeight="bold">
-            <OddsBadge>2.18</OddsBadge>
+            <OddsBadge>{bets[0].away_win || "—"}</OddsBadge>
             {away_team}
           </Text>
         </Box>

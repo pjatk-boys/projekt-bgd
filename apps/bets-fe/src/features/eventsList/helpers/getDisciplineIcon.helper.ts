@@ -6,11 +6,11 @@ import defaultIcon from "../assets/images/disciplines/default.png";
 
 export const getDisciplineIcon = (discipline: Discipline): string => {
   switch (discipline) {
-    case Discipline["TENNIS"]:
+    case Discipline.TENNIS:
       return tennisIcon;
-    case Discipline["SOCCER"]:
+    case Discipline.FOOTBALL:
       return soccerIcon;
-    case Discipline["MMA"]:
+    case Discipline.MMA:
       return mmaIcon;
     default:
       return defaultIcon;
