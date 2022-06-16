@@ -6,6 +6,14 @@ from app.core import ConnectionManager
 from app.database.mock_database.mock_database import get_mock_database
 from app.exceptions.exceptions import ItemNotFound, InvalidEvent
 from app.models import OrderByModel, DetailedEventModel, sort_events, validate_event
+from fastapi.middleware.cors import CORSMiddleware
+
+origins = [
+    'http://localhost:3000',
+    'https://pjatk-boys.github.io/projekt-bgd/',
+    'https://pjatk-boys.github.io/projekt-bgd/dev',
+    'https://pjatk-boys.github.io/projekt-bgd/main'
+]
 
 description = """
 PJATK school project - Betting odds analysis
@@ -20,6 +28,14 @@ app = FastAPI(
         "name": "PJATK boys",
         "url": "https://github.com/pjatk-boys",
     },
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
