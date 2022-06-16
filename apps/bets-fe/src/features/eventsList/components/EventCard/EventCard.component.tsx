@@ -11,7 +11,13 @@ import {
 } from "@chakra-ui/react";
 import { WarningIcon } from "@chakra-ui/icons";
 import { getDisciplineIcon } from "features/eventsList/helpers/getDisciplineIcon.helper";
-import { DisciplineName, EventTime, OddsBadge } from "./EventCard.styles";
+import {
+  DisciplineName,
+  EventTime,
+  OddsBadge,
+  skeletonAnimation,
+} from "./EventCard.styles";
+import { Link } from "react-router-dom";
 
 type Props = {
   event: DetailedEventModel;
@@ -19,8 +25,12 @@ type Props = {
 
 const EventCard = ({ event }: Props) => {
   const { home_team, away_team, discipline, created_at } = event;
+
   return (
-    <Flex
+    <Button
+      as={Link}
+      to={`/event/${event.id}`}
+      display="flex"
       bgColor="white"
       p="4"
       mb={4}
@@ -28,6 +38,7 @@ const EventCard = ({ event }: Props) => {
       borderRadius={8}
       flexDir="column"
       justifyContent="space-between"
+      alignItems="stretch"
     >
       <Flex alignItems="center" justifyContent="space-between" mb={2}>
         <DisciplineName>
@@ -61,19 +72,30 @@ const EventCard = ({ event }: Props) => {
           5.3%
         </Badge>
       </Flex>
-    </Flex>
+    </Button>
   );
 };
 
-export const SkeletonEventCard = (props: FlexProps) => (
+type SkeletonEventCardProps = FlexProps & {
+  index: number;
+};
+
+export const SkeletonEventCard = ({
+  index,
+  ...flexProps
+}: SkeletonEventCardProps) => (
   <Flex
+    animation={`${skeletonAnimation} 1.5s cubic-bezier(0,1.14,1,1) ${
+      index * 0.3
+    }s infinite alternate`}
     bgColor="white"
     p="4"
     mb={4}
     borderRadius={8}
     justifyContent="space-between"
     minH={110}
-    {...props}
+    opacity={0}
+    {...flexProps}
   >
     <Box>
       <Flex alignItems="center">

@@ -1,4 +1,12 @@
-import { Badge, chakra, Text } from "@chakra-ui/react";
+import {
+  Badge,
+  chakra,
+  Flex,
+  Text,
+  st,
+  styled,
+  keyframes,
+} from "@chakra-ui/react";
 
 export const DisciplineName = chakra(Text, {
   baseStyle: {
@@ -24,3 +32,14 @@ export const OddsBadge = chakra(Badge, {
     mr: 2,
   },
 });
+
+export const skeletonAnimation = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+`;

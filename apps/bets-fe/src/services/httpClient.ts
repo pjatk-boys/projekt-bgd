@@ -1,10 +1,7 @@
-import axios from "axios";
-import { configure, makeUseAxios } from "axios-hooks";
+import Axios from "axios";
+import { makeUseAxios } from "axios-hooks";
+import LRU from "lru-cache";
 
-export const axiosInstance = axios.create({
+export const axiosInstance = Axios.create({
   baseURL: import.meta.env.API_BASE_URL,
-});
-
-export const useAxios = makeUseAxios({
-  axios: axiosInstance,
 });

@@ -1,28 +1,27 @@
-import { useMemo } from "react";
-import { useAxios } from "./httpClient";
+import { OrderByModel } from "models/orderBy.d";
+import { axiosInstance } from "./httpClient";
 
 type GetEventsArgs = {
   query?: string;
   orderBy?: OrderByModel;
+  signal?: AbortSignal;
 };
 
 /**
  * This function fetches a list of events from the BE
  */
-export const useGetEvents = ({ orderBy, query }: GetEventsArgs = {}) => {
-  const url = useMemo(() => {
-    let url = "/events";
+export const getEvents = ({ orderBy, query, signal }: GetEventsArgs = {}) => {
+  let url = "/events";
 
-    if (orderBy) {
-      url += `/${orderBy}`;
-    }
+  if (orderBy) {
+    url += `/${orderBy}`;
+  }
 
-    if (query) {
-      url += `/${query}`;
-    }
+  if (query) {
+    url += `/${query}`;
+  }
 
-    return url;
-  }, [orderBy, query]);
-
-  return useAxios<DetailedEventModel[]>(url);
+  return axiosInstance
+    .get<DetailedEventModel[]>(url, { signal })
+    .then((res) => res.data);
 };
