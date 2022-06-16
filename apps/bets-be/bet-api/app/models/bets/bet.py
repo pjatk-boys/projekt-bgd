@@ -6,4 +6,3 @@ class BetModel(BaseModel):
     url: str
     sports: str
     bet_type: str
-    # bet_name: str

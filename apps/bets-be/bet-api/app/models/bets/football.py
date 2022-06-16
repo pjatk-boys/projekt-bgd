@@ -10,33 +10,8 @@ class OverallScore(BetModel):
 
 class GoalsNumber(BetModel):
     bet_type = "goals_number"
-    home_above_05: float
-    home_above_1: float
-    home_above_15: float
-    home_above_2: float
-    home_above_25: float
-    home_above_3: float
-    home_above_35: float
-    home_above_4: float
-    home_above_45: float
-    home_above_5: float
-    home_above_55: float
-    home_above_6: float
-    home_above_65: float
-
-    away_above_05: float
-    away_above_1: float
-    away_above_15: float
-    away_above_2: float
-    away_above_25: float
-    away_above_3: float
-    away_above_35: float
-    away_above_4: float
-    away_above_45: float
-    away_above_5: float
-    away_above_55: float
-    away_above_6: float
-    away_above_65: float
+    goals_number: float
+    value: float
 
 
 class BothSidesScore(BetModel):
