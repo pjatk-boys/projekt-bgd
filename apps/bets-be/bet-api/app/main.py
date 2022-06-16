@@ -10,9 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 origins = [
     'http://localhost:3000',
-    'https://pjatk-boys.github.io/projekt-bgd/',
-    'https://pjatk-boys.github.io/projekt-bgd/dev',
-    'https://pjatk-boys.github.io/projekt-bgd/main'
+    'https://pjatk-boys.github.io',
 ]
 
 description = """
