@@ -26,7 +26,7 @@ jobs:
         uses: tj-actions/branch-names@v5.2
 
       - run: yarn
-      - run: yarn build --base=${{ steps.branch-name.outputs.current_branch }}/
+      - run: yarn build --base=/${{ github.repository }}/${{ steps.branch-name.outputs.current_branch }}/
 
       - uses: peaceiris/actions-gh-pages@v3
         with:
