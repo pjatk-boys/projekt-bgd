@@ -1,8 +1,12 @@
-import Home from "pages";
+import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
+const Home = lazy(() => import("pages"));
+
 export const AppRoutes = () => (
-  <Routes>
-    <Route path="/" element={<Home />} />
-  </Routes>
+  <Suspense fallback={null}>
+    <Routes>
+      <Route path="/" element={<Home />} />
+    </Routes>
+  </Suspense>
 );
