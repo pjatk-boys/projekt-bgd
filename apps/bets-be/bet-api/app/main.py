@@ -40,7 +40,7 @@ async def get_event(event_id: str):
         raise HTTPException(status_code=404, detail=e.message)
 
 
-@app.get("/events/{order_by}/{q}", response_description="Returns list of events", response_model=List[DetailedEventModel], tags=["events"])
+@app.get("/events", response_description="Returns list of events", response_model=List[DetailedEventModel], tags=["events"])
 async def get_events(order_by: Optional[OrderByModel],
                      q: Optional[str] = Query(default=None, min_length=3, max_length=25)):  # todo
     # try: #todo kuba is there already validation delivered by FastAPI?
