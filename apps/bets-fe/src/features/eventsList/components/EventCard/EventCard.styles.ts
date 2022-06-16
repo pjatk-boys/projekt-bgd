@@ -1,12 +1,4 @@
-import {
-  Badge,
-  chakra,
-  Flex,
-  Text,
-  st,
-  styled,
-  keyframes,
-} from "@chakra-ui/react";
+import { Badge, chakra, Flex, Text, keyframes } from "@chakra-ui/react";
 
 export const DisciplineName = chakra(Text, {
   baseStyle: {
