@@ -12,13 +12,16 @@ class MongoDatabase:
         self.db = self.client.get_database('surebets-db')
         self.collection = self.db['events']
 
-    def get_all(self) -> List[DetailedEventModel]:
+    def get_all(self):
         cursor = self.collection.find()
-        serialised_objects = [DetailedEventModel(**document) for document in cursor]
-        return serialised_objects
+        return [document for document in cursor]
 
-    def get_by_id(self, _id: str) -> DetailedEventModel:
-        document = self.client.db.collection.find_one({'_id': ObjectId(_id)})
+    def get_by_mongo_id(self, _id: str) -> DetailedEventModel:
+        document = self.collection.find_one({'_id': ObjectId(_id)})
+        return document
+
+    def get_by_custom_id(self, _id: str):
+        document = self.collection.find_one({'id': _id})
         return document
 
     def create(self, document) -> str:
