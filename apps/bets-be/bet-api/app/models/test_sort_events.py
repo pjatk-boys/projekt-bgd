@@ -26,6 +26,6 @@ class Test(TestCase):
         mocks = [mock1, mock2]
 
         sorted_events = sort_events(mocks, OrderByModel.score_inc)
-        self.assertEqual(sorted_events[0].surebet[0].value, 1.1)
+        self.assertEqual(sorted_events[0].surebets[0].value, 1.1)
 
 

@@ -10,7 +10,7 @@ def sort_events(events: List[DetailedEventModel], sorting_strategy: OrderByModel
     elif sorting_strategy == OrderByModel.date_desc:
         events.sort(key=lambda x: datetime.strptime(x.event_date, '%Y-%m-%d'), reverse=True)
     elif sorting_strategy == OrderByModel.score_inc:
-        events.sort(key=lambda x: x.surebet)
+        events.sort(key=lambda x: x.surebets)
     elif sorting_strategy == OrderByModel.score_desc:
-        events.sort(key=lambda x: x.surebet, reverse=True)
+        events.sort(key=lambda x: x.surebets, reverse=True)
     return events

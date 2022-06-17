@@ -36,4 +36,4 @@ class DetailedEventModel(BaseEventModel):
     created_at: str
     updated_at: Optional[str]
     bets: List[BetModel]
-    surebet: List[SureBet]
+    surebets: List[SureBet]
