@@ -3,7 +3,7 @@ from typing import Optional, List
 
 from pydantic import BaseModel
 
-from .bets import BetModel
+from .bets import OverallScore
 
 
 class OrderByModel(str, Enum):
@@ -21,8 +21,10 @@ class BaseEventModel(BaseModel):
 
 
 class SureBet(BaseModel):
-    # bets: List[BetModel]
     value: float
+    home_win: float
+    draw: float
+    away_win: float
 
     def __len__(self):
         return self.value
@@ -30,10 +32,22 @@ class SureBet(BaseModel):
     def __lt__(self, other):
         return self.value < other.value
 
+# class Bet():
+#     event_id: str
+#     bookmaker: str
+#     value: float
+#     bet_type: str # "1x2_home_win" | "1x2_draw"
+
+# class Surebet:
+#     bets: List[Bet]
+#     value: float
+
 
 class DetailedEventModel(BaseEventModel):
     event_date: str
     created_at: str
+    description: str
+    location: str
     updated_at: Optional[str]
-    bets: List[BetModel]
+    bets: List[OverallScore]  # just for now
     surebets: List[SureBet]
