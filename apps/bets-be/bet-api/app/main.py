@@ -6,17 +6,46 @@ from app.core import ConnectionManager
 from app.database.mock_database.mock_database import get_mock_database
 from app.exceptions.exceptions import ItemNotFound, InvalidEvent
 from app.models import OrderByModel, DetailedEventModel, sort_events, validate_event
+from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+origins = [
+    'http://localhost:3000',
+    'https://pjatk-boys.github.io',
+]
+
+description = """
+PJATK school project - Betting odds analysis
+"""
+
+
+app = FastAPI(
+    title="Bets API",
+    description=description,
+    version="0.0.1",
+    contact={
+        "name": "PJATK boys",
+        "url": "https://github.com/pjatk-boys",
+    },
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 event_manager = ConnectionManager(get_mock_database())
 
 
-@app.get("/")
+@app.get("/", response_description="root", tags=["root"])
 async def root():
     return {"status": "ok"}
 
 
-@app.get("/event/{event_id}", response_model=DetailedEventModel)
+@app.get("/event/{event_id}", response_description="Get detailed info about event", response_model=DetailedEventModel, tags=["event"])
 async def get_event(event_id: str):
     try:
         event = event_manager.get_event(event_id)
@@ -25,9 +54,9 @@ async def get_event(event_id: str):
         raise HTTPException(status_code=404, detail=e.message)
 
 
-@app.get("/events/{order_by}/{q}", response_model=List[DetailedEventModel])
-async def get_events(order_by: Optional[OrderByModel],
-                     q: Optional[str] = Query(default=None, min_length=3, max_length=25)):  # todo
+@app.get("/events", response_description="Returns list of events", response_model=List[DetailedEventModel], tags=["events"])
+async def get_events(order_by: Optional[OrderByModel] = None,
+                     q: Optional[str] = None):  # todo
     # try: #todo kuba is there already validation delivered by FastAPI?
     #     validate_query(q)
     #     validate_order_by(order_by)
@@ -43,7 +72,7 @@ async def get_events(order_by: Optional[OrderByModel],
     return events
 
 
-@app.post("/event/")
+@app.post("/event/", response_description="Posts a new event", tags=["event"])
 async def create_event(event: DetailedEventModel):  # todo
     try:
         validate_event(event)
@@ -53,12 +82,12 @@ async def create_event(event: DetailedEventModel):  # todo
     return status.HTTP_501_NOT_IMPLEMENTED
 
 
-@app.post("/events/")
+@app.post("/events/", response_description="Posts a list of events", tags=["events"])
 async def create_events(events: List[DetailedEventModel]):  # todo
     [event_manager.create(event) for event in events]
     return status.HTTP_501_NOT_IMPLEMENTED
 
 
-@app.put("/event/{event_id}")
+@app.put("/event/{event_id}", response_description="Updates event info", tags=["event"])
 async def update_event(event_id: str, event: DetailedEventModel):  # todo
     return status.HTTP_501_NOT_IMPLEMENTED

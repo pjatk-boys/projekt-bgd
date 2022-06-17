@@ -11,16 +11,27 @@ import {
 } from "@chakra-ui/react";
 import { WarningIcon } from "@chakra-ui/icons";
 import { getDisciplineIcon } from "features/eventsList/helpers/getDisciplineIcon.helper";
-import { DisciplineName, EventTime, OddsBadge } from "./EventCard.styles";
+import {
+  DisciplineName,
+  EventTime,
+  OddsBadge,
+  skeletonAnimation,
+} from "./EventCard.styles";
+import { Link } from "react-router-dom";
+import { DetailedEventModel } from "models/events";
 
 type Props = {
   event: DetailedEventModel;
 };
 
 const EventCard = ({ event }: Props) => {
-  const { home_team, away_team, discipline, created_at } = event;
+  const { home_team, away_team, discipline, created_at, bets } = event;
+
   return (
-    <Flex
+    <Button
+      as={Link}
+      to={`/event/${event.id}`}
+      display="flex"
       bgColor="white"
       p="4"
       mb={4}
@@ -28,6 +39,7 @@ const EventCard = ({ event }: Props) => {
       borderRadius={8}
       flexDir="column"
       justifyContent="space-between"
+      alignItems="stretch"
     >
       <Flex alignItems="center" justifyContent="space-between" mb={2}>
         <DisciplineName>
@@ -44,11 +56,11 @@ const EventCard = ({ event }: Props) => {
       <Flex alignItems="center" justifyContent="space-between">
         <Box>
           <Text fontWeight="bold">
-            <OddsBadge>2.12</OddsBadge>
+            <OddsBadge>{bets[0].home_win || "—"}</OddsBadge>
             {home_team}
           </Text>
           <Text fontWeight="bold">
-            <OddsBadge>2.18</OddsBadge>
+            <OddsBadge>{bets[0].away_win || "—"}</OddsBadge>
             {away_team}
           </Text>
         </Box>
@@ -61,19 +73,30 @@ const EventCard = ({ event }: Props) => {
           5.3%
         </Badge>
       </Flex>
-    </Flex>
+    </Button>
   );
 };
 
-export const SkeletonEventCard = (props: FlexProps) => (
+type SkeletonEventCardProps = FlexProps & {
+  index: number;
+};
+
+export const SkeletonEventCard = ({
+  index,
+  ...flexProps
+}: SkeletonEventCardProps) => (
   <Flex
+    animation={`${skeletonAnimation} 1.5s cubic-bezier(0,1.14,1,1) ${
+      index * 0.3
+    }s infinite alternate`}
     bgColor="white"
     p="4"
     mb={4}
     borderRadius={8}
     justifyContent="space-between"
     minH={110}
-    {...props}
+    opacity={0}
+    {...flexProps}
   >
     <Box>
       <Flex alignItems="center">

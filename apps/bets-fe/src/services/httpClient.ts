@@ -1,10 +1,7 @@
-import axios from "axios";
-import { configure, makeUseAxios } from "axios-hooks";
+import Axios from "axios";
 
-export const axiosInstance = axios.create({
-  baseURL: import.meta.env.API_BASE_URL,
-});
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-export const useAxios = makeUseAxios({
-  axios: axiosInstance,
+export const axiosInstance = Axios.create({
+  baseURL: API_BASE_URL,
 });

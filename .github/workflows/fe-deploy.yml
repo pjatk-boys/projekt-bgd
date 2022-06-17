@@ -1,0 +1,37 @@
+name: FE deployment
+on:
+  push:
+    paths:
+      - "apps/bets-fe/**"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./apps/bets-fe
+
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - uses: actions/checkout@v3
+        with:
+          cache: "yarn"
+
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5.2
+
+      - run: yarn
+      - run: yarn build --base=/${{ github.event.repository.name }}/${{ steps.branch-name.outputs.current_branch }}/
+        env:
+          VITE_API_BASE_URL: https://projekt-bgd-${{ steps.branch-name.outputs.current_branch }}.herokuapp.com
+
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./apps/bets-fe/dist
+          destination_dir: ${{ steps.branch-name.outputs.current_branch }}

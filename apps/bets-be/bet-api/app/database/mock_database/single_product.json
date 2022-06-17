@@ -1,4 +1,20 @@
 {
   "id": "1",
-  "event_date": "2022-06-08T19:41:23.912276"
+  "home_team": "FC Barca",
+  "away_team": "Juventus",
+  "discipline": "football",
+  "event_date": "2021-09-20",
+  "created_at": "2022-03-11T13:11:18.232276",
+  "bets": [
+    {
+      "timestamp": "2292121",
+      "bookmaker_name": "Bwin",
+      "url": "http://betwin.ru",
+      "sports": "football",
+      "bet_type": "overall_score",
+      "home_win": 1.23,
+      "draw": 2.03,
+      "away_win": 3.23
+    }
+  ]
 }

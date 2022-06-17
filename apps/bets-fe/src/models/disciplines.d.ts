@@ -1,5 +1,5 @@
 export enum Discipline {
   TENNIS = "tennis",
-  SOCCER = "soccer",
+  FOOTBALL = "football",
   MMA = "mma",
 }
