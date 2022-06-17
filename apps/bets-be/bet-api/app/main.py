@@ -37,7 +37,9 @@ app.add_middleware(
 )
 
 
-event_manager = ConnectionManager(get_mock_database())
+# event_manager = ConnectionManager(get_mock_database())
+event_manager = ConnectionManager()
+
 
 
 @app.get("/", response_description="root", tags=["root"])
