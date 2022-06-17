@@ -50,4 +50,4 @@ class DetailedEventModel(BaseEventModel):
     location: str
     updated_at: Optional[str]
     bets: List[OverallScore]  # just for now
-    surebets: List[SureBet]
+    surebet: SureBet
