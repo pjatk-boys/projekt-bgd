@@ -1,5 +1,6 @@
 import EventCard, {
   ErrorEventCard,
+  ErrorEventType,
   SkeletonEventCard,
 } from "features/eventsList/components/EventCard/EventCard.component";
 import { getEvents } from "services/events.service";
@@ -16,7 +17,7 @@ const Home = () => {
     OrderByModel["DATE_DESC"]
   );
 
-  const { data, isError, isLoading } = useQuery(
+  const { data, isError, isLoading, isSuccess } = useQuery(
     ["events", { query, orderBy }],
     ({ signal }) => getEvents({ query, orderBy, signal })
   );
@@ -31,12 +32,15 @@ const Home = () => {
           setOrderBy={setOrderBy}
         />
       </Flex>
-      {isError && <ErrorEventCard />}
+      {isError && <ErrorEventCard type={ErrorEventType.SERVER_ERROR} />}
       {isLoading &&
         [...Array(4)].map((_, i) => <SkeletonEventCard key={i} index={i} />)}
-      {data?.map((e) => (
-        <EventCard event={e} key={e.id} />
-      ))}
+      {isSuccess &&
+        (data && data.length > 0 ? (
+          data.map((e) => <EventCard event={e} key={e.id} />)
+        ) : (
+          <ErrorEventCard type={ErrorEventType.NO_RESULTS} />
+        ))}
     </div>
   );
 };

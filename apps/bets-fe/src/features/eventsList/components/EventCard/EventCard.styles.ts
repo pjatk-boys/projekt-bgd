@@ -12,7 +12,7 @@ export const DisciplineName = chakra(Text, {
   },
 });
 
-export const EventTime = chakra(Text, {
+export const Subtitle = chakra(Text, {
   baseStyle: {
     fontSize: "xs",
     color: "gray.400",

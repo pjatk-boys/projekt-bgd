@@ -26,3 +26,23 @@ export const getEvents = ({ orderBy, query, signal }: GetEventsArgs = {}) => {
     .get<DetailedEventModel[]>(url.href, { signal })
     .then((res) => res.data);
 };
+
+type GetEventArgs = {
+  id: string | undefined;
+  signal?: AbortSignal;
+};
+
+/**
+ * This function fetches an event from the BE
+ */
+export const getEvent = ({ id, signal }: GetEventArgs) => {
+  if (!id) {
+    throw Error("No id in getEvent");
+  }
+
+  const url = new URL(`${API_BASE_URL}/event/${id}`);
+
+  return axiosInstance
+    .get<DetailedEventModel>(url.href, { signal })
+    .then((res) => res.data);
+};

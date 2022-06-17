@@ -14,5 +14,7 @@ export type DetailedEventModel = BaseEventModel & {
   created_at: string;
   updated_at?: string;
   bets: BetModel[];
-  surebets: SureBet[];
+  surebet: SureBet;
+  description: string;
+  location: string;
 };

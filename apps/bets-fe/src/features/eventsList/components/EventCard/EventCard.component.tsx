@@ -9,28 +9,46 @@ import {
   SkeletonText,
   Text,
 } from "@chakra-ui/react";
-import { WarningIcon } from "@chakra-ui/icons";
+import { QuestionIcon, WarningIcon } from "@chakra-ui/icons";
 import { getDisciplineIcon } from "features/eventsList/helpers/getDisciplineIcon.helper";
 import {
   DisciplineName,
-  EventTime,
   OddsBadge,
   skeletonAnimation,
+  Subtitle,
 } from "./EventCard.styles";
 import { Link } from "react-router-dom";
 import { DetailedEventModel } from "models/events";
+import { useMemo } from "react";
 
 type Props = {
   event: DetailedEventModel;
+  detailed?: boolean;
 };
 
-const EventCard = ({ event }: Props) => {
-  const { home_team, away_team, discipline, created_at, bets } = event;
+const EventCard = ({ event, detailed }: Props) => {
+  const {
+    home_team,
+    away_team,
+    discipline,
+    created_at,
+    surebet,
+    description,
+    location,
+  } = event;
+
+  const Component = detailed ? Box : Button;
+
+  const props: any = detailed
+    ? {}
+    : {
+        as: Link,
+        to: `/event/${event.id}`,
+      };
 
   return (
-    <Button
-      as={Link}
-      to={`/event/${event.id}`}
+    <Component
+      {...props}
       display="flex"
       bgColor="white"
       p="4"
@@ -51,29 +69,52 @@ const EventCard = ({ event }: Props) => {
           />
           {discipline}
         </DisciplineName>
-        <EventTime>{new Date(created_at).toLocaleString()}</EventTime>
+        <Subtitle>{new Date(created_at).toLocaleString()}</Subtitle>
       </Flex>
       <Flex alignItems="center" justifyContent="space-between">
         <Box>
-          <Text fontWeight="bold">
-            <OddsBadge>{bets[0].home_win || "—"}</OddsBadge>
-            {home_team}
-          </Text>
-          <Text fontWeight="bold">
-            <OddsBadge>{bets[0].away_win || "—"}</OddsBadge>
-            {away_team}
-          </Text>
+          <Text fontWeight="bold">{home_team}</Text>
+          <Text fontWeight="bold">{away_team}</Text>
         </Box>
+        <Flex>
+          <Flex flexDir="column" alignItems="center">
+            <Subtitle mb="2">Home win</Subtitle>
+            <OddsBadge fontSize="md">{surebet.home_win.toFixed(2)}</OddsBadge>
+          </Flex>
+          <Flex flexDir="column" alignItems="center">
+            <Subtitle mb="2">Draw</Subtitle>
+            <OddsBadge fontSize="md">{surebet.draw.toFixed(2)}</OddsBadge>
+          </Flex>
+          <Flex flexDir="column" alignItems="center">
+            <Subtitle mb="2">Away win</Subtitle>
+            <OddsBadge fontSize="md">{surebet.away_win.toFixed(2)}</OddsBadge>
+          </Flex>
+        </Flex>
         <Badge
           borderRadius={4}
           fontSize="lg"
           colorScheme="green"
           variant="solid"
         >
-          5.3%
+          {`${surebet.value * 100}%`}
         </Badge>
       </Flex>
-    </Button>
+      {detailed && (
+        <>
+          <Subtitle mt="2" align="center">
+            Location:
+          </Subtitle>
+          <Text align="center">{location}</Text>
+          <Subtitle mt="2" align="center">
+            Description:
+          </Subtitle>
+          <Text align="center">{description}</Text>
+          <Button mt="2" as={Link} to="/">
+            Go back to the main page
+          </Button>
+        </>
+      )}
+    </Component>
   );
 };
 
@@ -109,24 +150,63 @@ export const SkeletonEventCard = ({
   </Flex>
 );
 
-export const ErrorEventCard = () => (
-  <Flex
-    borderWidth={2}
-    borderStyle="dashed"
-    borderColor="white"
-    p="4"
-    mb={4}
-    borderRadius={8}
-    flexDir="column"
-    justifyContent="center"
-    alignItems="center"
-    minH={110}
-    color="white"
-  >
-    <WarningIcon mb={2} />
-    <Text>Ooops, there was a server error.</Text>
-    <Text>Please try again later</Text>
-  </Flex>
-);
+export enum ErrorEventType {
+  SERVER_ERROR = "server_error",
+  NO_RESULTS = "no_results",
+  NO_EVENT = "no_event",
+}
+
+type ErrorEventCardProps = {
+  type: ErrorEventType;
+};
+
+export const ErrorEventCard = ({ type }: ErrorEventCardProps) => {
+  const component = useMemo(() => {
+    switch (type) {
+      case ErrorEventType.SERVER_ERROR:
+        return (
+          <>
+            <WarningIcon mb={2} />
+            <Text>Ooops, there was a server error.</Text>
+            <Text>Please try again later</Text>
+          </>
+        );
+      case ErrorEventType.NO_RESULTS:
+        return (
+          <>
+            <QuestionIcon mb={2} />
+            <Text>No results found</Text>
+            <Text>Did you input the full name of a team?</Text>
+          </>
+        );
+      case ErrorEventType.NO_EVENT:
+        return (
+          <>
+            <WarningIcon mb={2} />
+            <Text>Ooops, there is no event here.</Text>
+            <Text>Are you sure the id is correct?</Text>
+          </>
+        );
+    }
+  }, []);
+
+  return (
+    <Flex
+      borderWidth={2}
+      borderStyle="dashed"
+      borderColor="white"
+      p="4"
+      mb={4}
+      borderRadius={8}
+      flexDir="column"
+      justifyContent="center"
+      alignItems="center"
+      minH={110}
+      color="white"
+    >
+      {component}
+    </Flex>
+  );
+};
 
 export default EventCard;
