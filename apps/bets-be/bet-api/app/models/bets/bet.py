@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class BetModel(BaseModel):
     timestamp: str
     bookmaker_name: str

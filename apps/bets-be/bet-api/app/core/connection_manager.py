@@ -19,9 +19,9 @@ class ConnectionManager:
         document = self.database.get_by_custom_id(event_id)
         return model(**document)
 
-
-    def get_by_query(self, q) -> List[DetailedEventModel]:
-        raise NotImplementedError
+    def get_by_query(self, q: str, model=DetailedEventModel) -> List[DetailedEventModel]:
+        documents = self.database.get_by_query(q)
+        return [model(**document) for document in documents]
 
     def create(self, event: DetailedEventModel):
         raise NotImplementedError

@@ -24,6 +24,10 @@ class MongoDatabase:
         document = self.collection.find_one({'id': _id})
         return document
 
+    def get_by_query(self, q: str):
+        cursor = self.collection.find({'$text': {'$search': q}})
+        return [document for document in cursor]
+
     def create(self, document) -> str:
         result = self.db.test.insert_one(document)
         return result.inserted_id
