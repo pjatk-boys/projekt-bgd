@@ -1,12 +1,12 @@
 from typing import List, Optional
 
-from fastapi import FastAPI, Query, status, HTTPException
+from fastapi import FastAPI, status, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.core import ConnectionManager
-from app.database.mock_database.mock_database import get_mock_database
 from app.exceptions.exceptions import ItemNotFound, InvalidEvent
+from app.database.mock_database.mock_database import get_mock_database
 from app.models import OrderByModel, DetailedEventModel, sort_events, validate_event
-from fastapi.middleware.cors import CORSMiddleware
 
 origins = [
     'http://localhost:3000',
@@ -16,7 +16,6 @@ origins = [
 description = """
 PJATK school project - Betting odds analysis
 """
-
 
 app = FastAPI(
     title="Bets API",
@@ -36,10 +35,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 # event_manager = ConnectionManager(get_mock_database())
 event_manager = ConnectionManager()
-
 
 
 @app.get("/", response_description="root", tags=["root"])
@@ -47,7 +44,8 @@ async def root():
     return {"status": "ok"}
 
 
-@app.get("/event/{event_id}", response_description="Get detailed info about event", response_model=DetailedEventModel, tags=["event"])
+@app.get("/event/{event_id}", response_description="Get detailed info about event", response_model=DetailedEventModel,
+         tags=["event"])
 async def get_event(event_id: str):
     try:
         event = event_manager.get_event(event_id)
@@ -56,14 +54,10 @@ async def get_event(event_id: str):
         raise HTTPException(status_code=404, detail=e.message)
 
 
-@app.get("/events", response_description="Returns list of events", response_model=List[DetailedEventModel], tags=["events"])
+@app.get("/events", response_description="Returns list of events", response_model=List[DetailedEventModel],
+         tags=["events"])
 async def get_events(order_by: Optional[OrderByModel] = None,
-                     q: Optional[str] = None):  # todo
-    # try: #todo kuba is there already validation delivered by FastAPI?
-    #     validate_query(q)
-    #     validate_order_by(order_by)
-    # except InvalidParams:
-    #     return status.HTTP_400_BAD_REQUEST
+                     q: Optional[str] = None):
     if q is not None:
         events: List[DetailedEventModel] = event_manager.get_by_query(q)
     else:
