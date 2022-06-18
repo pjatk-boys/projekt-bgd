@@ -32,7 +32,7 @@ const EventCard = ({ event, detailed }: Props) => {
     home_team,
     away_team,
     discipline,
-    created_at,
+    event_date,
     surebet,
     description,
     location,
@@ -71,7 +71,7 @@ const EventCard = ({ event, detailed }: Props) => {
           />
           {discipline}
         </DisciplineName>
-        <Subtitle>{new Date(created_at).toLocaleString()}</Subtitle>
+        <Subtitle>{new Date(event_date).toLocaleString()}</Subtitle>
       </Flex>
       <Flex alignItems="center" justifyContent="space-between">
         <Box flexBasis="150px">
