@@ -27,6 +27,8 @@ jobs:
 
       - run: yarn
       - run: yarn build --base=/${{ github.event.repository.name }}/${{ steps.branch-name.outputs.current_branch }}/
+        env:
+          VITE_API_BASE_URL: https://projekt-bgd-${{ steps.branch-name.outputs.current_branch }}.herokuapp.com
 
       - uses: peaceiris/actions-gh-pages@v3
         with:
