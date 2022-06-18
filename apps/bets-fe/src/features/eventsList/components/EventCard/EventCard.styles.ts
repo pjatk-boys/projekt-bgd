@@ -19,12 +19,6 @@ export const Subtitle = chakra(Text, {
   },
 });
 
-export const OddsBadge = chakra(Badge, {
-  baseStyle: {
-    mr: 2,
-  },
-});
-
 export const skeletonAnimation = keyframes`
   from {
     opacity: 0;

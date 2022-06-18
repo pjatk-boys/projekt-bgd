@@ -4,6 +4,8 @@ import {
   Button,
   Flex,
   FlexProps,
+  Grid,
+  GridItem,
   Image,
   Skeleton,
   SkeletonText,
@@ -13,7 +15,6 @@ import { QuestionIcon, WarningIcon } from "@chakra-ui/icons";
 import { getDisciplineIcon } from "features/eventsList/helpers/getDisciplineIcon.helper";
 import {
   DisciplineName,
-  OddsBadge,
   skeletonAnimation,
   Subtitle,
 } from "./EventCard.styles";
@@ -35,6 +36,7 @@ const EventCard = ({ event, detailed }: Props) => {
     surebet,
     description,
     location,
+    bets,
   } = event;
 
   const Component = detailed ? Box : Button;
@@ -72,22 +74,22 @@ const EventCard = ({ event, detailed }: Props) => {
         <Subtitle>{new Date(created_at).toLocaleString()}</Subtitle>
       </Flex>
       <Flex alignItems="center" justifyContent="space-between">
-        <Box>
+        <Box flexBasis="150px">
           <Text fontWeight="bold">{home_team}</Text>
           <Text fontWeight="bold">{away_team}</Text>
         </Box>
-        <Flex>
+        <Flex gap="3">
           <Flex flexDir="column" alignItems="center">
             <Subtitle mb="2">Home win</Subtitle>
-            <OddsBadge fontSize="md">{surebet.home_win.toFixed(2)}</OddsBadge>
+            <Badge fontSize="md">{surebet.home_win.toFixed(2)}</Badge>
           </Flex>
           <Flex flexDir="column" alignItems="center">
             <Subtitle mb="2">Draw</Subtitle>
-            <OddsBadge fontSize="md">{surebet.draw.toFixed(2)}</OddsBadge>
+            <Badge fontSize="md">{surebet.draw.toFixed(2)}</Badge>
           </Flex>
           <Flex flexDir="column" alignItems="center">
             <Subtitle mb="2">Away win</Subtitle>
-            <OddsBadge fontSize="md">{surebet.away_win.toFixed(2)}</OddsBadge>
+            <Badge fontSize="md">{surebet.away_win.toFixed(2)}</Badge>
           </Flex>
         </Flex>
         <Badge
@@ -105,15 +107,40 @@ const EventCard = ({ event, detailed }: Props) => {
       </Flex>
       {detailed && (
         <>
-          <Subtitle mt="2" align="center">
-            Location:
-          </Subtitle>
+          <Subtitle>Location:</Subtitle>
           <Text align="center">{location}</Text>
           <Subtitle mt="2" align="center">
             Description:
           </Subtitle>
           <Text align="center">{description}</Text>
-          <Button mt="2" as={Link} to="/">
+          <Subtitle mt="2" align="center">
+            Bet options:
+          </Subtitle>
+          <Box mx="auto">
+            <Flex mt="2">
+              <Subtitle w={100}>Bookmaker:</Subtitle>
+              <Subtitle w="70px">Home win:</Subtitle>
+              <Subtitle w="70px">Away win:</Subtitle>
+              <Subtitle w="70px">Draw:</Subtitle>
+            </Flex>
+            {bets.map((b) => (
+              <Box key={b.bookmaker_name}>
+                <Text w={100} display="inline-block">
+                  {b.bookmaker_name}
+                </Text>
+                <Box display="inline-block" w="70px">
+                  <Badge fontSize="md">{b.home_win.toFixed(2)}</Badge>
+                </Box>
+                <Box display="inline-block" w="70px">
+                  <Badge fontSize="md">{b.draw.toFixed(2)}</Badge>
+                </Box>
+                <Box display="inline-block" w="70px">
+                  <Badge fontSize="md">{b.away_win.toFixed(2)}</Badge>
+                </Box>
+              </Box>
+            ))}
+          </Box>
+          <Button mt="4" as={Link} to="/">
             Go back to the main page
           </Button>
         </>
