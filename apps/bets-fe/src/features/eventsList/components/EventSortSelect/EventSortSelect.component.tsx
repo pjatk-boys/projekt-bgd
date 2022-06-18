@@ -1,6 +1,7 @@
 import { Select, SelectProps } from "@chakra-ui/react";
 import { OrderByModel } from "models/orderBy.d";
 import { ChangeEvent, useCallback } from "react";
+import { getOrderByLabel } from "./EventSortSelect.helpers";
 
 type Props = SelectProps & {
   orderBy: OrderByModel;
@@ -32,7 +33,7 @@ export const EventSortSelect = ({
       {Object.entries(OrderByModel).map(([key, value]) => {
         return (
           <option key={key} value={value}>
-            {value}
+            {getOrderByLabel(value)}
           </option>
         );
       })}
