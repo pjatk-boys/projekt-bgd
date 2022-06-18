@@ -53,20 +53,20 @@ async def get_event(event_id: str):
         raise HTTPException(status_code=404, detail=e.message)
 
 
-@app.get("/events", response_description="Returns list of events", response_model=List[DetailedEventModel],
-         tags=["events"])
-async def get_events(order_by: Optional[OrderByModel] = None,
-                     q: Optional[str] = None):
-    if q is not None:
-        events: List[DetailedEventModel] = event_manager.get_by_query(q)
-    else:
-        events = event_manager.get_all()
+# @app.get("/events", response_description="Returns list of events", response_model=List[DetailedEventModel],
+#          tags=["events"])
+# async def get_events(order_by: Optional[OrderByModel] = None,
+#                      q: Optional[str] = None):
+#     if q is not None:
+#         events: List[DetailedEventModel] = event_manager.get_by_query(q)
+#     else:
+#         events = event_manager.get_all()
 
-    if order_by is not None:
-        return sort_events(events, order_by)
-    return events
+#     if order_by is not None:
+#         return sort_events(events, order_by)
+#     return events
 
-@app.get("/surebets", response_description="Returns list of SUREBETS", response_model=List[DetailedEventModel],
+@app.get("/events", response_description="Returns list of events with surebets", response_model=List[DetailedEventModel],
          tags=["events"])
 async def get_events_surebets(order_by: Optional[OrderByModel] = None, q: Optional[str] = None):
     events = event_manager.get_with_surebets(order_by=order_by, q=q)
