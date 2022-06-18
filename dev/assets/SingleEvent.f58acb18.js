@@ -1,1 +1,0 @@
-import{u as d,E as o,a as E,b as i,c as v,d as u}from"./events.service.d6782d29.js";import{a4 as p,n as c,p as a}from"./index.ea9e185b.js";const g=()=>{const{id:e}=p(),{data:r,isError:t,isLoading:s}=d([`event-${e}`,{id:e}],({signal:n})=>u({id:e,signal:n}));return c("div",{children:[t&&a(o,{type:E.NO_EVENT}),s&&a(i,{index:0}),r&&a(v,{event:r,detailed:!0})]})};export{g as default};
