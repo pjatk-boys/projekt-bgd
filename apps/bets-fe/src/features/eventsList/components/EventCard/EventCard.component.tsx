@@ -93,10 +93,14 @@ const EventCard = ({ event, detailed }: Props) => {
         <Badge
           borderRadius={4}
           fontSize="lg"
-          colorScheme="green"
+          colorScheme={
+            surebet.value > 0 ? "green" : surebet.value === 0 ? "yellow" : "red"
+          }
           variant="solid"
         >
-          {`${surebet.value * 100}%`}
+          {`${surebet.value > 0 ? "+" : ""}${(surebet.value * 100).toFixed(
+            2
+          )}%`}
         </Badge>
       </Flex>
       {detailed && (

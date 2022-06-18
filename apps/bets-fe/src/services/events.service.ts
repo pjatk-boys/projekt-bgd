@@ -15,7 +15,7 @@ export const getEvents = ({ orderBy, query, signal }: GetEventsArgs = {}) => {
   const url = new URL(`${API_BASE_URL}/events`);
 
   if (orderBy) {
-    url.searchParams.append("orderBy", orderBy);
+    url.searchParams.append("order_by", orderBy);
   }
 
   if (query) {
