@@ -101,8 +101,11 @@ class MongoDatabase:
         cursor = self.collection.find({'$text': {'$search': q}})
         return [document for document in cursor]
 
-    def get_with_surebets(self, order_by: Optional[OrderByModel] = None, q: Optional[str] = None,):
+    def get_with_surebets(self, order_by: Optional[OrderByModel] = None, q: Optional[str] = None, id: Optional[str] = None):
         pipeline = [*surebets_pipeline]
+
+        if id is not None:
+            pipeline = [{ "$match": { "id": id}}, *pipeline]
 
         if q is not None:
             pipeline = [{ "$match": { "$or":[{"home_team": q},{"away_team":q}]}}, *pipeline]

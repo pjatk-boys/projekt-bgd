@@ -17,8 +17,8 @@ class ConnectionManager:
         return [model(**document) for document in documents]
 
     def get_event(self, event_id: str, model=DetailedEventModel) -> DetailedEventModel:
-        document = self.database.get_by_custom_id(event_id)
-        return model(**document)
+        documents = self.database.get_with_surebets(id=event_id)
+        return model(**documents[0])
 
     def get_by_query(self, q: str, model=DetailedEventModel) -> List[DetailedEventModel]:
         documents = self.database.get_by_query(q)

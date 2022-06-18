@@ -47,7 +47,7 @@ async def root():
          tags=["event"])
 async def get_event(event_id: str):
     try:
-        event = event_manager.get_event(event_id)
+        event = event_manager.get_event(event_id=event_id)
         return event.dict()
     except ItemNotFound as e:
         raise HTTPException(status_code=404, detail=e.message)
