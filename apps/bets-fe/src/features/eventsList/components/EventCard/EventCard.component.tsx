@@ -107,7 +107,9 @@ const EventCard = ({ event, detailed }: Props) => {
       </Flex>
       {detailed && (
         <>
-          <Subtitle>Location:</Subtitle>
+          <Subtitle align="center" mt="2">
+            Location:
+          </Subtitle>
           <Text align="center">{location}</Text>
           <Subtitle mt="2" align="center">
             Description:
