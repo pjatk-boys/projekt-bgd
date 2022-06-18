@@ -35,7 +35,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# event_manager = ConnectionManager(get_mock_database())
 event_manager = ConnectionManager()
 
 
@@ -65,6 +64,12 @@ async def get_events(order_by: Optional[OrderByModel] = None,
 
     if order_by is not None:
         return sort_events(events, order_by)
+    return events
+
+@app.get("/surebets", response_description="Returns list of SUREBETS", response_model=List[DetailedEventModel],
+         tags=["events"])
+async def get_events_surebets(order_by: Optional[OrderByModel] = None, q: Optional[str] = None):
+    events = event_manager.get_with_surebets(order_by=order_by, q=q)
     return events
 
 

@@ -1,5 +1,6 @@
 from enum import Enum
 from typing import Optional, List
+from datetime import datetime
 
 from pydantic import BaseModel
 
@@ -44,7 +45,7 @@ class SureBet(BaseModel):
 
 
 class DetailedEventModel(BaseEventModel):
-    event_date: str
+    event_date: datetime
     created_at: str
     description: str
     location: str
